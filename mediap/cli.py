@@ -32,7 +32,7 @@ def listar_categoria (tipo, tracks):
 
             for lista_ordenada in ordem_rating:
                 for cada_musica in lista_ordenada:
-                    print(f"Título: {cada_musica.titulo} | Nota: {cada_musica.rating}")
+                    print(f"Nota: {cada_musica.rating} | Título: {cada_musica.titulo} ")
 
         elif tipo == "titulo":
             ordem_titulo = tracks[:]
