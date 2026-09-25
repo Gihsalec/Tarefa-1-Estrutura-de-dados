@@ -34,7 +34,7 @@ def listar_categoria (tipo, tracks):
                 for cada_musica in lista_ordenada:
                     print(f"Nota: {cada_musica.rating} | Título: {cada_musica.titulo} ")
 
-        elif tipo == "titulo":
+        elif tipo == "titulo" or tipo=="title":
             ordem_titulo = tracks[:]
             
             n = len(ordem_titulo)
@@ -49,7 +49,7 @@ def listar_categoria (tipo, tracks):
             for cada_musica in ordem_titulo:
                 print(f"Título: {cada_musica.titulo} | Artista: {cada_musica.artista}")
 
-        elif tipo == "artista":
+        elif tipo == "artista" or tipo=="artist":
             ordem_artista = tracks[:]
                     
             n = len(ordem_artista)
@@ -73,15 +73,28 @@ def listar_categoria (tipo, tracks):
         print(f"Erro: {erro}")
 
 tracks=[]
+biblioteca_carregada=False
 while True:
     comando = input("mediap> ").strip()
+    partes = comando.split()
 
-    if comando.startswith("library load "):
-        caminho = comando.replace("library load ", "").strip()
-        tracks = carregar_biblioteca(caminho)
-    elif comando.startswith("library list"):
-        if comando=="library list":
-            categoria="id"
+    try:
+        if partes[0]=="library" and partes[1]=="load":
+            caminho = partes[2]
+            tracks = carregar_biblioteca(caminho)
+            if tracks:
+                biblioteca_carregada=True
+
+        elif biblioteca_carregada==False:
+            print("Erro: use 'library load <caminho>' para carregar uma base de dados")
+        
+        elif partes[0]=="library" and partes[1]=="list":
+            if "--by" in partes:
+                categoria=partes[3]
+            else:
+                categoria="id"
+            listar_categoria(categoria, tracks)
         else:
-            categoria = comando.replace("library list by", "").strip()
-        listar_categoria(categoria, tracks)
+            print("Comando inválido, consulte a lista de comandos e digite um comando válido")
+    except Exception:
+        print("Erro: comando inválido, consulte a lista de comandos e digite um comando válido")
