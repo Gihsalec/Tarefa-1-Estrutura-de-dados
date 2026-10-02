@@ -61,8 +61,9 @@ class DoublyLinkedList:
             self._header.next = new_node
             self._trailer.previous = new_node
         elif index == 0:
+            primeiro = self._header.next   
             new_node = self._DoublyNode(elem, self._header, self._header.next)
-            self._header.next.previous = new_node
+            primeiro = new_node
             self._header.next = new_node
         else:
             this = self._header.next
@@ -90,8 +91,10 @@ class DoublyLinkedList:
                     node = node.next
                     pos += 1
             if found:
-                node.previous.next = node.next
-                node.next.previous = node.previous
+                vizinho_de_tras = node.previous   
+                vizinho_da_frente = node.next 
+                vizinho_de_tras.next = vizinho_da_frente
+                vizinho_da_frente.previous = vizinho_de_tras
                 self._length -= 1
  
     def count(self, elem):
